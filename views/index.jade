@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  .row
+    .col-xs-12.col-sm-6.center
+      h1#curWeight= avg.toFixed(2) + ' lbs'
+      p Current 7 Day Average
+      h1#chart Cool Chart
+      img#chart-img(src='/images/chart.png')
+    .col-xs-12.col-sm-4.col-sm-offset-2
+      h1 Recent Weight Ins
+        a.btn.btn-primary( href="/record" ) Record New
+      table.table.table-hover.table-condensed
+        thead
+          tr
+            th Date
+            th Weight
+        tbody
+          each recording in rec
+            tr
+              td= moment(recording.date).format('MM/DD/YYYY')
+              td= recording.weight + ' lbs'
+  script(src='/bower_components/jquery/dist/jquery.min.js')
+  script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')

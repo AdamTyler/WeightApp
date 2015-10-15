@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .row
+    .col-xs-12.col-sm-4
+      h1 Enter Weight
+      form(action="/save", method="post")
+        .form-group
+          label(for="date") Date
+          input.form-control#date(type="date", name="date", placeholder="Enter Date")
+        .form-group
+          label(for="weight") Weight
+          input.form-control#weight(type="number", step="any", name="weight", placeholder="Enter Weight")
+        button.btn.btn-large.btn-primary(type="submit") Save
