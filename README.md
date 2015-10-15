@@ -1,4 +1,4 @@
-#Steps to get running
+# Steps to get running
 * pull source
 * download and install mongodb https://docs.mongodb.org/manual/administration/install-on-linux/
 * run mongod service:
