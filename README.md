@@ -6,4 +6,4 @@
 
 * From project dir:  
 `npm install` - installs all node modules  
-`npm start` - start debug server
+`npm start` - start debug server (runs on port 3000)
