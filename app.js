@@ -6,9 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var passport = require('passport');
+var expressSession = require('express-session');
+var expressValidator = require('express-validator');
 
 var db = mongoose.connect('mongodb://localhost:27017/weight', function(err) {
   if(err) {
@@ -21,6 +21,25 @@ var db = mongoose.connect('mongodb://localhost:27017/weight', function(err) {
 var app = express();
 app.locals.moment = require('moment');
 
+// Initialize Passport
+var initPassport = require('./passport/init');
+initPassport(passport);
+app.use(expressSession({
+  secret: 'superSecretKey',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Using the flash middleware provided by connect-flash to store messages in session
+ // and displaying in templates
+var flash = require('express-flash');
+app.use(flash());
+
+var routes = require('./routes/index')(passport);
+var users = require('./routes/users');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -29,13 +48,24 @@ app.set('view engine', 'jade');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(expressValidator());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
+
 app.use(function(req, res, next){
   req.db = db;
+  next();
+});
+
+app.use(function(req, res, next){
+  req.redirect_to = req.url;
   next();
 });
 
