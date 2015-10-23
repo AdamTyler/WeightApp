@@ -1,8 +1,8 @@
 # Steps to get running
+* prereqs: nodejs, npm
 * pull source
 * download and install mongodb https://docs.mongodb.org/manual/administration/install-on-linux/
-* run mongod service:
-*might have to  run `mongo` to start mongo cli and type `use weight` to create weight database inside mongo*
+* run mongod service
 
 * From project dir:  
 `npm install` - installs all node modules  
